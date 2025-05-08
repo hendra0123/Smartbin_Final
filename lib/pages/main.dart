@@ -132,7 +132,7 @@ class _MainPageState extends State<MainPage> {
         finalIcon = isSelected ? Icons.home : Icons.home_outlined;
         break;
       case 'Redeem':
-        finalIcon = isSelected ? Icons.redeem : Icons.redeem_outlined;
+        finalIcon = isSelected ? Icons.storefront : Icons.storefront_outlined;
         break;
       case 'Maps':
         finalIcon = isSelected ? Icons.map : Icons.map_outlined;

@@ -62,41 +62,50 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[_selectedIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => QRScannerPage()),
-          );
-        },
-        backgroundColor: activeColor,
-        child: const Icon(Icons.qr_code_scanner, size: 32),
+      floatingActionButton: Container(
+        height: 72,
+        width: 72,
+        decoration: BoxDecoration(
+          color: activeColor,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: FloatingActionButton(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => QRScannerPage()),
+            );
+          },
+          child:
+              const Icon(Icons.qr_code_scanner, size: 36, color: Colors.white),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8,
-        elevation: 10,
-        child: Container(
+        child: SizedBox(
           height: 70,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // LEFT SIDE
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildNavItem(icon: Icons.home, label: 'Home', index: 0),
                   _buildNavItem(
                       icon: Icons.storefront, label: 'Redeem', index: 1),
                 ],
               ),
-              // RIGHT SIDE
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildNavItem(icon: Icons.map, label: 'Maps', index: 2),
                   _buildNavItem(
@@ -110,9 +119,31 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _buildNavItem(
-      {required IconData icon, required String label, required int index}) {
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required int index,
+  }) {
     bool isSelected = _selectedIndex == index;
+
+    IconData finalIcon;
+    switch (label) {
+      case 'Home':
+        finalIcon = isSelected ? Icons.home : Icons.home_outlined;
+        break;
+      case 'Redeem':
+        finalIcon = isSelected ? Icons.redeem : Icons.redeem_outlined;
+        break;
+      case 'Maps':
+        finalIcon = isSelected ? Icons.map : Icons.map_outlined;
+        break;
+      case 'Education':
+        finalIcon = isSelected ? Icons.school : Icons.school_outlined;
+        break;
+      default:
+        finalIcon = icon;
+    }
+
     return MaterialButton(
       minWidth: 40,
       onPressed: () => _onItemTapped(index),
@@ -120,11 +151,10 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            icon,
+            finalIcon,
             color: isSelected ? activeColor : inactiveColor,
             size: 28,
           ),
-          const SizedBox(height: 4),
           const SizedBox(height: 4),
           Text(
             label,
@@ -132,7 +162,7 @@ class _MainPageState extends State<MainPage> {
               color: isSelected ? activeColor : inactiveColor,
               fontSize: 12,
             ),
-          )
+          ),
         ],
       ),
     );

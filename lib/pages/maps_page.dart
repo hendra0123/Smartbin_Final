@@ -24,19 +24,112 @@ class _MapsPageState extends State<MapsPage> {
   double? _shortestDistance;
   List<LatLng> _polylinePoints = [];
 
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      _showLocationDialog(
+        title: 'Layanan Lokasi Nonaktif',
+        content:
+            'Aktifkan layanan lokasi untuk melihat tempat sampah terdekat.',
+      );
+      return false;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        _showLocationDialog(
+          title: 'Izin Lokasi Diperlukan',
+          content:
+              'Aplikasi membutuhkan izin lokasi untuk bekerja dengan benar.',
+        );
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      _showLocationDialog(
+        title: 'Izin Lokasi Ditolak Permanen',
+        content:
+            'Izin lokasi ditolak secara permanen. Silakan buka pengaturan aplikasi untuk mengaktifkannya.',
+        openSettings: true,
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  void _showLocationDialog({
+    required String title,
+    required String content,
+    bool openSettings = false,
+  }) {
+    if (!mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            child: Text(openSettings ? 'Buka Pengaturan' : 'Tutup'),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              if (openSettings) {
+                await Geolocator.openAppSettings();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    _initLocationAndDistance();
+    _initializeMaps();
+  }
+
+  Future<void> _initializeMaps() async {
+    bool permissionGranted = await _handleLocationPermission();
+    if (permissionGranted) {
+      await _initLocationAndDistance();
+    }
   }
 
   Future<void> _initLocationAndDistance() async {
     LatLng location = await _getCurrentLocation();
     _calculateNearestSmartbin(location);
     await _fetchRoute(location, _nearestSmartbin!);
-    setState(() {
-      _currentLocation = location;
-    });
+    if (mounted) {
+      setState(() {
+        _currentLocation = location;
+      });
+    }
+  }
+
+  Future<void> _fetchRoute(LatLng start, LatLng end) async {
+    final url =
+        'https://router.project-osrm.org/route/v1/driving/${start.longitude},${start.latitude};${end.longitude},${end.latitude}?geometries=geojson';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final geometry = data['routes'][0]['geometry']['coordinates'] as List;
+
+      if (mounted) {
+        setState(() {
+          _polylinePoints =
+              geometry.map((point) => LatLng(point[1], point[0])).toList();
+        });
+      }
+    } else {
+      print('Failed to fetch route');
+    }
   }
 
   Future<LatLng> _getCurrentLocation() async {
@@ -80,24 +173,6 @@ class _MapsPageState extends State<MapsPage> {
 
     _shortestDistance = minDistance;
     _nearestSmartbin = nearest;
-  }
-
-  Future<void> _fetchRoute(LatLng start, LatLng end) async {
-    final url =
-        'https://router.project-osrm.org/route/v1/driving/${start.longitude},${start.latitude};${end.longitude},${end.latitude}?geometries=geojson';
-
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final geometry = data['routes'][0]['geometry']['coordinates'] as List;
-
-      setState(() {
-        _polylinePoints =
-            geometry.map((point) => LatLng(point[1], point[0])).toList();
-      });
-    } else {
-      print('Failed to fetch route');
-    }
   }
 
   void _openStreetView(double lat, double lng) async {

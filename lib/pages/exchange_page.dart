@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smartbin/pages/formredeem_page.dart';
+import 'package:smartbin/pages/formExchange_page.dart';
 
-class RedeemPage extends StatelessWidget {
+class ExchangePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,7 @@ class RedeemPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => FormRedeemPage()),
+                MaterialPageRoute(builder: (_) => FormExchangePage()),
               );
             },
             child: Card(

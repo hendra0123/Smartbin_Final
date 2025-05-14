@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smartbin/pages/waitingConfirmation_page.dart';
 
-class FormRedeemPage extends StatefulWidget {
+class FormExchangePage extends StatefulWidget {
   @override
-  _FormRedeemPageState createState() => _FormRedeemPageState();
+  _FormExchangePageState createState() => _FormExchangePageState();
 }
 
-class _FormRedeemPageState extends State<FormRedeemPage> {
+class _FormExchangePageState extends State<FormExchangePage> {
   final _formKey = GlobalKey<FormState>();
   String nim = '', email = '', jumlah = '';
 

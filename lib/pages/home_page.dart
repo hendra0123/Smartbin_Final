@@ -14,10 +14,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final PageController _controller = PageController();
   final List<String> _imageUrls = [
-    'https://via.placeholder.com/300x150.png?text=Recycle+LDPE',
-    'https://via.placeholder.com/300x150.png?text=Recycle+Boxes',
+    'https://placehold.co/600x400',
+    'https://placehold.co/600x400',
     // Tambah lagi kalau mau
   ];
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+
+    if (hour >= 6 && hour <= 11) {
+      return 'Selamat pagi, ';
+    } else if (hour >= 12 && hour <= 15) {
+      return 'Selamat siang, ';
+    } else if (hour >= 16 && hour <= 17) {
+      return 'Selamat sore, ';
+    } else {
+      return 'Selamat malam, ';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +50,13 @@ class _HomePageState extends State<HomePage> {
                         text: TextSpan(
                       children: [
                         TextSpan(
-                            text: 'Selamat pagi, ',
-                            style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            )),
+                          text: getGreeting(),
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         TextSpan(
                             text: 'Hitam',
                             style: GoogleFonts.poppins(
@@ -299,65 +313,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                Text(
-                  'Tips Recycle',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // PageView
-                SizedBox(
-                  height: 180,
-                  child: PageView.builder(
-                    controller: _controller,
-                    itemCount: _imageUrls.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
-                            ),
-                          ],
-                          image: DecorationImage(
-                            image: NetworkImage(_imageUrls[index]),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Dots Indicator
-                Center(
-                  child: SmoothPageIndicator(
-                    controller: _controller,
-                    count: _imageUrls.length,
-                    effect: ExpandingDotsEffect(
-                      activeDotColor: Colors.green,
-                      dotColor: Colors.grey.shade300,
-                      dotHeight: 8,
-                      dotWidth: 8,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            SizedBox(height: 20),
           ],
         ),
       ),

@@ -1,9 +1,8 @@
-import 'package:smartbin/pages/onBoarding_page.dart';
 import 'package:smartbin/pages/qrscan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartbin/pages/home_page.dart';
-import 'package:smartbin/pages/redeem_page.dart';
+import 'package:smartbin/pages/exchange_page.dart';
 import 'package:smartbin/pages/maps_page.dart';
 import 'package:smartbin/pages/education_page.dart';
 
@@ -47,7 +46,7 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> pages = [
     const HomePage(),
-    RedeemPage(),
+    ExchangePage(),
     MapsPage(),
     const EducationPage(),
   ];
@@ -62,56 +61,32 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[_selectedIndex],
-      floatingActionButton: Container(
-        height: 72,
-        width: 72,
-        decoration: BoxDecoration(
-          color: activeColor,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: FloatingActionButton(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => QRScannerPage()),
-            );
-          },
-          child:
-              const Icon(Icons.qr_code_scanner, size: 36, color: Colors.white),
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: activeColor,
+        elevation: 4,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => QRScannerPage()),
+          );
+        },
+        child: const Icon(Icons.qr_code_scanner, size: 30, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8,
+        elevation: 10,
         child: SizedBox(
           height: 70,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                children: [
-                  _buildNavItem(icon: Icons.home, label: 'Home', index: 0),
-                  _buildNavItem(
-                      icon: Icons.storefront, label: 'Redeem', index: 1),
-                ],
-              ),
-              Row(
-                children: [
-                  _buildNavItem(icon: Icons.map, label: 'Maps', index: 2),
-                  _buildNavItem(
-                      icon: Icons.school, label: 'Education', index: 3),
-                ],
-              ),
+              _buildNavItem(icon: Icons.home, label: 'Home', index: 0),
+              _buildNavItem(icon: Icons.storefront, label: 'Redeem', index: 1),
+              const SizedBox(width: 48), // Space for FAB
+              _buildNavItem(icon: Icons.map, label: 'Maps', index: 2),
+              _buildNavItem(icon: Icons.school, label: 'Education', index: 3),
             ],
           ),
         ),
@@ -150,17 +125,14 @@ class _MainPageState extends State<MainPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            finalIcon,
-            color: isSelected ? activeColor : inactiveColor,
-            size: 28,
-          ),
+          Icon(finalIcon,
+              color: isSelected ? activeColor : inactiveColor, size: 26),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               color: isSelected ? activeColor : inactiveColor,
-              fontSize: 12,
+              fontSize: 11,
             ),
           ),
         ],

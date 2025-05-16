@@ -4,6 +4,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:smartbin/pages/welcome_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
@@ -58,49 +60,49 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                 child: Column(
                   children: [
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     SvgPicture.asset(onboardingData[index]['image']!),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     Text(
                       onboardingData[index]['title']!,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(
                       onboardingData[index]['desc']!,
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            onLastPage ? Colors.green : Color(0xFF104C3F),
-                        shape: StadiumBorder(),
+                            onLastPage ? Colors.green : const Color(0xFF104C3F),
+                        shape: const StadiumBorder(),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                            const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                       ),
                       onPressed: () {
                         if (onLastPage) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => (WelcomePage())));
+                                  builder: (context) => (const WelcomePage())));
                         } else {
                           _controller.nextPage(
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.easeIn,
                           );
                         }
                       },
                       child: Text(
                         onLastPage ? 'Done' : 'Next',
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -112,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 controller: _controller,
                 count: onboardingData.length,
                 effect: WormEffect(
-                  activeDotColor: Color(0xFF104C3F),
+                  activeDotColor: const Color(0xFF104C3F),
                   dotColor: Colors.grey.shade300,
                   dotHeight: 6,
                   dotWidth: 20,
@@ -126,7 +128,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onTap: () {
                   _controller.jumpToPage(onboardingData.length - 1);
                 },
-                child: Text(
+                child: const Text(
                   "Skip",
                   style: TextStyle(color: Colors.black),
                 ),

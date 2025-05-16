@@ -16,9 +16,9 @@ class MapsPage extends StatefulWidget {
 class _MapsPageState extends State<MapsPage> {
   LatLng? _currentLocation;
   List<LatLng> smartbinLocations = [
-    LatLng(-5.1491, 119.3952),
-    LatLng(-5.140000, 119.420000),
-    LatLng(-5.155000, 119.440000),
+    const LatLng(-5.1491, 119.3952),
+    const LatLng(-5.140000, 119.420000),
+    const LatLng(-5.155000, 119.440000),
   ];
   LatLng? _nearestSmartbin;
   double? _shortestDistance;
@@ -199,9 +199,9 @@ class _MapsPageState extends State<MapsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Lokasi Tempat Sampah')),
+      appBar: AppBar(title: const Text('Lokasi Tempat Sampah')),
       body: _currentLocation == null
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 FlutterMap(
@@ -231,7 +231,7 @@ class _MapsPageState extends State<MapsPage> {
                           point: _currentLocation!,
                           width: 40,
                           height: 40,
-                          child: Icon(Icons.my_location,
+                          child: const Icon(Icons.my_location,
                               color: Colors.blue, size: 40),
                         ),
                         // Marker smartbin
@@ -256,7 +256,7 @@ class _MapsPageState extends State<MapsPage> {
                               ),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ],
                     ),
                   ],
@@ -267,14 +267,14 @@ class _MapsPageState extends State<MapsPage> {
                     left: 16,
                     right: 16,
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         'Tempat sampah terdekat: ${_shortestDistance!.toStringAsFixed(1)} meter',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                     ),

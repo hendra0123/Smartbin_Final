@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+ 
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter/material.dart';
 
 class EducationPage extends StatelessWidget {
   const EducationPage({super.key});
@@ -170,10 +171,10 @@ class YoutubeVideoCard extends StatefulWidget {
   final String title;
 
   const YoutubeVideoCard({
-    Key? key,
+    super.key,
     required this.videoId,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   State<YoutubeVideoCard> createState() => _YoutubeVideoCardState();

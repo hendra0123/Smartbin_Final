@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QRScannerPage extends StatefulWidget {
+  const QRScannerPage({super.key});
+
   @override
   _QRScannerPageState createState() => _QRScannerPageState();
 }
@@ -14,7 +16,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Scan Barcode"),
-        leading: BackButton(),
+        leading: const BackButton(),
         centerTitle: true,
       ),
       body: Stack(

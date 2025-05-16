@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme.apply(bodyColor: Colors.black),
         ),
       ),
-      home: MainPage(),
+      home: const MainPage(),
     );
   }
 }
@@ -46,8 +46,8 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> pages = [
     const HomePage(),
-    ExchangePage(),
-    MapsPage(),
+    const ExchangePage(),
+    const MapsPage(),
     const EducationPage(),
   ];
 
@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => QRScannerPage()),
+            MaterialPageRoute(builder: (_) => const QRScannerPage()),
           );
         },
         child: const Icon(Icons.qr_code_scanner, size: 30, color: Colors.white),

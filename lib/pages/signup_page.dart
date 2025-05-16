@@ -9,7 +9,7 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: const Text(
@@ -24,7 +24,7 @@ class SignupPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 children: [
                   Text(
                     'Join us! ',
@@ -42,7 +42,7 @@ class SignupPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     'the ',
@@ -60,7 +60,7 @@ class SignupPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
+              const Text(
                 'movement',
                 style: TextStyle(
                     color: Colors.black,
@@ -83,7 +83,7 @@ class SignupPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -100,7 +100,7 @@ class SignupPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -111,11 +111,11 @@ class SignupPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
+              const Row(
                 children: [
                   Expanded(child: Divider()),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text("OR"),
                   ),
                   Expanded(child: Divider()),
@@ -126,17 +126,17 @@ class SignupPage extends StatelessWidget {
                 onPressed: () {
                   // TODO: SignupPage with Phone
                 },
-                icon: Icon(Icons.phone, color: Colors.green),
+                icon: const Icon(Icons.phone, color: Colors.green),
                 label: const Text(
                   "Continue with Phone number",
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
                 style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  side: BorderSide(color: Colors.green),
+                  side: const BorderSide(color: Colors.green),
                 ),
               ),
               const SizedBox(height: 10),
@@ -148,11 +148,11 @@ class SignupPage extends StatelessWidget {
                 label: const Text("Continue with Google",
                     style: TextStyle(color: Colors.black, fontSize: 16)),
                 style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  side: BorderSide(color: Colors.green),
+                  side: const BorderSide(color: Colors.green),
                 ),
               ),
               const SizedBox(height: 20),
@@ -171,7 +171,7 @@ class SignupPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SigninPage()));
+                              builder: (context) => const SigninPage()));
                     },
                     child: const Text(
                       'Sign in here',

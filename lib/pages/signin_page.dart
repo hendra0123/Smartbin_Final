@@ -9,7 +9,7 @@ class SigninPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: const Text(
@@ -24,7 +24,7 @@ class SigninPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 children: [
                   Text(
                     'Welcome! ',
@@ -42,7 +42,7 @@ class SigninPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     'track ',
@@ -67,14 +67,14 @@ class SigninPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
+              const Text(
                 'point, and help',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 28,
                     fontWeight: FontWeight.bold),
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     'the ',
@@ -117,7 +117,7 @@ class SigninPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(
+              const Text(
                 'Forgot Password?',
                 style: TextStyle(
                     color: Colors.black,
@@ -132,7 +132,7 @@ class SigninPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -143,11 +143,11 @@ class SigninPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
+              const Row(
                 children: [
                   Expanded(child: Divider()),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text("OR"),
                   ),
                   Expanded(child: Divider()),
@@ -158,17 +158,17 @@ class SigninPage extends StatelessWidget {
                 onPressed: () {
                   // TODO: Login with Phone
                 },
-                icon: Icon(Icons.phone, color: Colors.green),
+                icon: const Icon(Icons.phone, color: Colors.green),
                 label: const Text(
                   "Continue with Phone number",
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
                 style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  side: BorderSide(color: Colors.green),
+                  side: const BorderSide(color: Colors.green),
                 ),
               ),
               const SizedBox(height: 10),
@@ -180,11 +180,11 @@ class SigninPage extends StatelessWidget {
                 label: const Text("Continue with Google",
                     style: TextStyle(color: Colors.black, fontSize: 16)),
                 style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  side: BorderSide(color: Colors.green),
+                  side: const BorderSide(color: Colors.green),
                 ),
               ),
               const SizedBox(height: 20),
@@ -203,7 +203,7 @@ class SigninPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignupPage()));
+                              builder: (context) => const SignupPage()));
                     },
                     child: const Text(
                       'Sign up here',

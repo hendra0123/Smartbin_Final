@@ -16,21 +16,21 @@ class WelcomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 40),
-              Text(
+              const Text(
                 "Let's Start",
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
+              const Text(
                 "Recycling",
                 style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Color.fromRGBO(105, 153, 77, 1)),
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     'with ',
@@ -67,11 +67,11 @@ class WelcomePage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignupPage()));
+                      MaterialPageRoute(builder: (context) => const SignupPage()));
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(105, 153, 77, 1),
-                  minimumSize: Size(double.infinity, 50),
+                  backgroundColor: const Color.fromRGBO(105, 153, 77, 1),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -82,19 +82,19 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Center(child: Text("OR")),
+              const Center(child: Text("OR")),
               const SizedBox(height: 10),
               OutlinedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SigninPage()));
+                      MaterialPageRoute(builder: (context) => const SigninPage()));
                 },
                 style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  side: BorderSide(color: Colors.green),
+                  side: const BorderSide(color: Colors.green),
                 ),
                 child: const Text(
                   "Sign In",

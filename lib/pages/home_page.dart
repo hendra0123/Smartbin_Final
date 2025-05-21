@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,12 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final PageController _controller = PageController();
-  final List<String> _imageUrls = [
-    'https://placehold.co/600x400',
-    'https://placehold.co/600x400',
-    // Tambah lagi kalau mau
-  ];
   String getGreeting() {
     final hour = DateTime.now().hour;
 

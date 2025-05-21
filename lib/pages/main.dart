@@ -1,3 +1,4 @@
+import 'package:smartbin/pages/editProfile_page.dart';
 import 'package:smartbin/pages/qrscan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme.apply(bodyColor: Colors.black),
         ),
       ),
-      home: MainPage(),
+      home: ProfilePage(),
     );
   }
 }

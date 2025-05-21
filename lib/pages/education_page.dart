@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:smartbin/pages/homeTab.dart';
+import 'kategoriTab.dart';
 
 class EducationPage extends StatelessWidget {
   const EducationPage({super.key});
@@ -7,7 +8,7 @@ class EducationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -24,19 +25,18 @@ class EducationPage extends StatelessWidget {
             ),
           ),
           centerTitle: false,
-          bottom: const PreferredSize(
+          bottom: PreferredSize(
             preferredSize: Size.fromHeight(48),
             child: TabBar(
               labelColor: Colors.black,
               unselectedLabelColor: Colors.grey,
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(width: 3.0, color: Colors.green),
-                insets: EdgeInsets.symmetric(horizontal: 100.0),
+                insets: EdgeInsets.symmetric(horizontal: 110),
               ),
               tabs: [
                 Tab(text: 'Home'),
                 Tab(text: 'Kategori'),
-                Tab(text: 'Tips'),
               ],
             ),
           ),
@@ -44,185 +44,9 @@ class EducationPage extends StatelessWidget {
         body: const TabBarView(
           children: [
             HomeTab(),
-            Center(child: Text('Kategori')),
-            Center(child: Text('Tips')),
+            KategoriTab(),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
-
-  final List<Map<String, String>> videoList = const [
-    {
-      'videoId': '6jQ7y_qQYUA&t',
-      'title': 'Kenapa harus recycle?',
-    },
-    {
-      'videoId': 'xvFZjo5PgG0',
-      'title': 'Cara daur ulang botol plastik',
-    },
-    {
-      'videoId': '3tmd-ClpJxA',
-      'title': 'Tutorial kompos rumahan',
-    },
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        // Trending section
-        const Text(
-          'Trending about recycle',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 220,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: videoList.length,
-            itemBuilder: (context, index) {
-              final video = videoList[index];
-              return Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: YoutubeVideoCard(
-                  videoId: video['videoId']!,
-                  title: video['title']!,
-                ),
-              );
-            },
-          ),
-        ),
-
-        // Quiz section
-        const SizedBox(height: 24),
-        const Text(
-          'Kuis recycle',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          'Belajar tanpa aksi hanyalah teori, seperti peta tanpa perjalanan.',
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 240,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: const [
-              QuizCard(
-                title: 'Recycle dalam dunia pendidikan',
-                questionCount: '5 pertanyaan',
-                points: '10 poin',
-                progress: 0.4,
-                quizTitle: 'Quiz Pendidikan',
-              ),
-              SizedBox(width: 12),
-              QuizCard(
-                title: 'Dasar-dasar daur ulang',
-                questionCount: '8 pertanyaan',
-                points: '15 poin',
-                progress: 0.0,
-                quizTitle: 'Quiz Dasar',
-              ),
-              SizedBox(width: 12),
-              QuizCard(
-                title: 'Teknik pemilahan sampah',
-                questionCount: '6 pertanyaan',
-                points: '12 poin',
-                progress: 0.75,
-                quizTitle: 'Quiz Pemilahan',
-              ),
-            ],
-          ),
-        ),
-
-        // Other information section
-        const SizedBox(height: 24),
-        const Text(
-          'Informasi Lainnya',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        const InfoCard(
-          title: 'Recycle',
-          subtitle: 'Pelajari cara mendaur ulang berbagai jenis material',
-          imagePath: 'assets/recycle.png',
-        ),
-        const InfoCard(
-          title: 'Non-Recycle',
-          subtitle: 'Material yang tidak bisa didaur ulang dan alternatifnya',
-          imagePath: 'assets/nonrecycle.png',
-        ),
-      ],
-    );
-  }
-}
-
-class YoutubeVideoCard extends StatefulWidget {
-  final String videoId;
-  final String title;
-
-  const YoutubeVideoCard({
-    Key? key,
-    required this.videoId,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  State<YoutubeVideoCard> createState() => _YoutubeVideoCardState();
-}
-
-class _YoutubeVideoCardState extends State<YoutubeVideoCard> {
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: widget.videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: true,
-            width: 300,
-            bottomActions: [
-              CurrentPosition(),
-              ProgressBar(isExpanded: true),
-              FullScreenButton(),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            widget.title,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ),
-        ],
       ),
     );
   }

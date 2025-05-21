@@ -70,10 +70,15 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Column(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.green,
-                      radius: 20,
-                      child: Icon(Icons.person),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/editProfile');
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.green,
+                        radius: 20,
+                        child: Icon(Icons.person),
+                      ),
                     ),
                   ],
                 )

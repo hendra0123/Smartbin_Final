@@ -5,7 +5,20 @@ class ExchangePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Redeem")),
+      appBar: AppBar(
+        title: const Padding(
+          padding: EdgeInsets.only(top: 12.0),
+          child: Text(
+            'Redeem',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+        ),
+        automaticallyImplyLeading: false,
+      ),
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [

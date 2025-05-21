@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smartbin/pages/youtubeCard.dart';
 import 'package:smartbin/pages/quizDetail_page.dart'; // Import halaman detail quiz
 
@@ -11,12 +12,12 @@ class HomeTab extends StatelessWidget {
       'title': 'Belajar Recycle',
     },
     {
-      'videoId': 'xvFZjo5PgG0',
-      'title': 'Cara daur ulang botol plastik',
+      'videoId': 'xpAnLXc_bIU',
+      'title': 'Importance of Recycle',
     },
     {
-      'videoId': '3tmd-ClpJxA',
-      'title': 'Tutorial kompos rumahan',
+      'videoId': '71DmyhloazQ',
+      'title': 'Recycling',
     },
   ];
 
@@ -66,9 +67,8 @@ class HomeTab extends StatelessWidget {
             children: [
               QuizCard(
                 title: 'Recycle dalam dunia pendidikan',
-                questionCount: '5 pertanyaan',
-                points: '10 poin',
-                progress: 0.4,
+                questionCount: '10 pertanyaan',
+                points: '2500',
                 quizTitle: 'Quiz Pendidikan',
                 onTap: () {
                   Navigator.push(
@@ -76,40 +76,6 @@ class HomeTab extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) =>
                           const QuizDetailPage(title: 'Quiz Pendidikan'),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(width: 12),
-              QuizCard(
-                title: 'Dasar-dasar daur ulang',
-                questionCount: '8 pertanyaan',
-                points: '15 poin',
-                progress: 0.0,
-                quizTitle: 'Quiz Dasar',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const QuizDetailPage(title: 'Quiz Dasar'),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(width: 12),
-              QuizCard(
-                title: 'Teknik pemilahan sampah',
-                questionCount: '6 pertanyaan',
-                points: '12 poin',
-                progress: 0.75,
-                quizTitle: 'Quiz Pemilahan',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const QuizDetailPage(title: 'Quiz Pemilahan'),
                     ),
                   );
                 },
@@ -126,43 +92,92 @@ class QuizCard extends StatelessWidget {
   final String title;
   final String questionCount;
   final String points;
-  final double progress;
   final String quizTitle;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
   const QuizCard({
-    super.key,
+    Key? key,
     required this.title,
     required this.questionCount,
     required this.points,
-    required this.progress,
     required this.quizTitle,
-    this.onTap,
-  });
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 200,
+        width: 260,
+        margin: const EdgeInsets.only(right: 16, left: 8),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
+          borderRadius: BorderRadius.circular(24),
+          gradient: const LinearGradient(
+            colors: [Color(0xFF3CD3AD), Color(0xFF4CB8C4)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.teal.withOpacity(0.3),
+              offset: const Offset(0, 8),
+              blurRadius: 16,
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(quizTitle,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Text(title),
-            const Spacer(),
-            LinearProgressIndicator(value: progress),
-            const SizedBox(height: 8),
-            Text('$questionCount • $points'),
+            const Icon(Icons.recycling, size: 36, color: Colors.white),
+            const SizedBox(height: 12),
+            Text(
+              quizTitle,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Icon(Icons.help_outline, size: 18, color: Colors.white70),
+                const SizedBox(width: 6),
+                Text(
+                  questionCount,
+                  style: const TextStyle(color: Colors.white70),
+                ),
+                const Spacer(),
+                SvgPicture.asset('assets/images/coin.svg', height: 18),
+                const SizedBox(width: 4),
+                Text(
+                  points,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Progress Bar
+            // ClipRRect(
+            //   borderRadius: BorderRadius.circular(8),
+            //   child: LinearProgressIndicator(
+            //     value: progress,
+            //     backgroundColor: Colors.white24,
+            //     color: Colors.yellowAccent,
+            //     minHeight: 8,
+            //   ),
+            // ),
           ],
         ),
       ),

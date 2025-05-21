@@ -199,7 +199,20 @@ class _MapsPageState extends State<MapsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Lokasi Tempat Sampah')),
+      appBar: AppBar(
+        title: const Padding(
+          padding: EdgeInsets.only(top: 12.0),
+          child: Text(
+            'Bin Location',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+        ),
+        automaticallyImplyLeading: false,
+      ),
       body: _currentLocation == null
           ? Center(child: CircularProgressIndicator())
           : Stack(

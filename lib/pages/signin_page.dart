@@ -1,3 +1,4 @@
+import 'package:smartbin/pages/main.dart';
 import 'package:smartbin/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -128,7 +129,10 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Login action
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => MainPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,

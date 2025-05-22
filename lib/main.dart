@@ -6,6 +6,7 @@ import 'package:smartbin/pages/home_page.dart';
 import 'package:smartbin/pages/exchange_page.dart';
 import 'package:smartbin/pages/maps_page.dart';
 import 'package:smartbin/pages/education_page.dart';
+import 'package:smartbin/pages/profilehome_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme.apply(bodyColor: Colors.black),
         ),
       ),
-      home: ProfilePage(),
+      home: MainPage(),
     );
   }
 }
@@ -50,6 +51,7 @@ class _MainPageState extends State<MainPage> {
     ExchangePage(),
     MapsPage(),
     const EducationPage(),
+    ProfileHomePage(),
   ];
 
   void _onItemTapped(int index) {

@@ -55,8 +55,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 260),
               Expanded(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
@@ -67,33 +66,88 @@ class ProfilePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 40),
-                        _buildInputField(
-                            label: 'Full Name',
-                            icon: Icons.person,
-                            hint: 'Name'),
-                        _buildInputField(
-                            label: 'Username',
-                            icon: Icons.edit,
-                            hint: 'Your Username'),
-                        _buildInputField(
-                            label: 'Email',
-                            icon: Icons.email,
-                            hint: 'Email Address'),
-                        _buildInputField(
-                            label: 'Phone Number',
-                            icon: Icons.phone,
-                            hint: 'Phone Number'),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 60),
+                        const Text(
+                          'Full Name',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Username',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Your Username',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.edit),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Email',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Email Address',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Phone Number',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.phone),
+                          ),
+                        ),
+                        const SizedBox(height: 60),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pop(context); // kembali ke homepage
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF164C3E),
-                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 30),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
@@ -108,35 +162,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        const Text(
-                          'Point History',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        ListView(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: const [
-                            PointHistoryItem(
-                              title: 'Daur ulang botol plastik',
-                              date: '2025-05-12',
-                              points: 20,
-                            ),
-                            PointHistoryItem(
-                              title: 'Sampah salah tempat',
-                              date: '2025-05-10',
-                              points: -10,
-                            ),
-                            PointHistoryItem(
-                              title: 'Daur ulang kardus',
-                              date: '2025-05-08',
-                              points: 15,
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 60), // Spasi bawah besar
                       ],
                     ),
                   ),
@@ -172,65 +198,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // Reusable input field builder
-  Widget _buildInputField(
-      {required String label, required IconData icon, required String hint}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          decoration: InputDecoration(
-            hintText: hint,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            prefixIcon: Icon(icon),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
-}
-
-// Riwayat Poin Widget
-class PointHistoryItem extends StatelessWidget {
-  final String title;
-  final String date;
-  final int points;
-
-  const PointHistoryItem({
-    super.key,
-    required this.title,
-    required this.date,
-    required this.points,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-      leading: Icon(
-        points > 0 ? Icons.add_circle : Icons.remove_circle,
-        color: points > 0 ? Colors.green : Colors.red,
-      ),
-      title: Text(title),
-      subtitle: Text(date),
-      trailing: Text(
-        '${points > 0 ? '+' : ''}$points pts',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: points > 0 ? Colors.green : Colors.red,
-        ),
       ),
     );
   }

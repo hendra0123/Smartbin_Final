@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:smartbin/pages/profilehome_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,72 +34,86 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header Row with Greeting and Profile Icon
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Greeting Text
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RichText(
-                        text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: getGreeting(),
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: getGreeting(),
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        TextSpan(
+                          TextSpan(
                             text: 'Hitam',
                             style: GoogleFonts.poppins(
-                              color: Color.fromRGBO(105, 153, 77, 1),
+                              color: const Color.fromRGBO(105, 153, 77, 1),
                               fontSize: 15,
-                            )),
-                      ],
-                    )),
-                    Text(
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
                       'Yuk mulai jaga lingkungan kamu!',
                       style: TextStyle(
                         fontSize: 17,
                         color: Color.fromRGBO(22, 76, 62, 1),
                         fontWeight: FontWeight.w600,
                       ),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.green,
-                      radius: 20,
-                      child: Icon(Icons.person),
                     ),
                   ],
-                )
+                ),
+                // Profile Icon with Navigation Gesture
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileHomePage(),
+                      ),
+                    );
+                  },
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.green,
+                    radius: 20,
+                    child: Icon(Icons.person),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            // Card with Points and Total Waste
             Container(
               height: MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                    image: AssetImage('assets/images/container_dash.jpg'),
-                    fit: BoxFit.cover),
+                borderRadius: BorderRadius.circular(20),
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/container_dash.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
               child: Card(
                 elevation: 0,
                 color: Colors.transparent,
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                       MediaQuery.of(context).size.width * 0.07, 0, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Poin Kamu',
                         style: TextStyle(
                             fontSize: 15,
@@ -107,11 +122,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Row(
                         children: [
-                          SvgPicture.asset(
-                            'assets/images/coin.svg',
-                          ),
-                          SizedBox(width: 6),
-                          Text(
+                          SvgPicture.asset('assets/images/coin.svg'),
+                          const SizedBox(width: 6),
+                          const Text(
                             '200',
                             style: TextStyle(
                                 color: Color.fromRGBO(255, 219, 89, 1),
@@ -120,28 +133,26 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.3,
                         height: 1,
                         color: Colors.black,
                       ),
-                      SizedBox(height: 5),
-                      Text(
+                      const SizedBox(height: 5),
+                      const Text(
                         'Total Sampah',
                         style: TextStyle(
                             color: Color.fromRGBO(44, 66, 20, 1),
                             fontSize: 15,
                             fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       Row(
                         children: [
-                          SvgPicture.asset(
-                            'assets/images/recycle-bottle.svg',
-                          ),
-                          SizedBox(width: 6),
-                          Text(
+                          SvgPicture.asset('assets/images/recycle-bottle.svg'),
+                          const SizedBox(width: 6),
+                          const Text(
                             '400000',
                             style: TextStyle(
                                 color: Colors.white,
@@ -155,22 +166,23 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(height: 15),
-            Text(
+            const SizedBox(height: 15),
+            const Text(
               'Status Kamu',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Container(
-              width: MediaQuery.of(context).size.width * 1,
+              width: MediaQuery.of(context).size.width,
               child: Card(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 elevation: 5,
                 color: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -183,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.teal[800],
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         'April 2025',
                         style: TextStyle(
@@ -191,20 +203,20 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey[600],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
                       // Legend
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          _buildLegendItem(Color(0xFF4CAF50), 'Recycle'),
-                          SizedBox(width: 16),
-                          _buildLegendItem(Color(0xFFFFC107), 'Non-recycle'),
-                          SizedBox(width: 16),
-                          _buildLegendItem(Color(0xFFF44336), 'B3'),
+                          _buildLegendItem(const Color(0xFF4CAF50), 'Recycle'),
+                          const SizedBox(width: 16),
+                          _buildLegendItem(const Color(0xFFFFC107), 'Non-recycle'),
+                          const SizedBox(width: 16),
+                          _buildLegendItem(const Color(0xFFF44336), 'B3'),
                         ],
                       ),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
 
                       // Bar Chart
                       AspectRatio(
@@ -226,15 +238,15 @@ class _HomePageState extends State<HomePage> {
                                     );
                                     switch (value.toInt()) {
                                       case 0:
-                                        return Text('Minggu 1', style: style);
+                                        return const Text('Minggu 1', style: style);
                                       case 1:
-                                        return Text('Minggu 2', style: style);
+                                        return const Text('Minggu 2', style: style);
                                       case 2:
-                                        return Text('Minggu 3', style: style);
+                                        return const Text('Minggu 3', style: style);
                                       case 3:
-                                        return Text('Minggu 4', style: style);
+                                        return const Text('Minggu 4', style: style);
                                       default:
-                                        return Text('', style: style);
+                                        return const Text('', style: style);
                                     }
                                   },
                                 ),
@@ -259,15 +271,15 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            // Waste Category Section
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Kategori Limbah',
                       style: TextStyle(
                         fontSize: 18,
@@ -278,24 +290,23 @@ class _HomePageState extends State<HomePage> {
                       'Lihat Selengkapnya',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.green,
+                        color: Colors.green[700],
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
                 const SizedBox(height: 16),
                 // Category Items
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: const [
                     WasteCategoryItem(
                       icon: Icons.shopping_bag,
                       label: 'Recycle',
                     ),
                     WasteCategoryItem(
-                      icon: Icons.set_meal, // contoh icon untuk Non-Recycle
+                      icon: Icons.set_meal,
                       label: 'Non-Recycle',
                     ),
                     WasteCategoryItem(
@@ -306,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -324,10 +335,10 @@ class _HomePageState extends State<HomePage> {
             shape: BoxShape.circle,
           ),
         ),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(
           text,
-          style: TextStyle(fontSize: 13),
+          style: const TextStyle(fontSize: 13),
         ),
       ],
     );
@@ -350,19 +361,19 @@ class _HomePageState extends State<HomePage> {
         BarChartRodData(
           toY: recycle,
           width: 12,
-          color: Color(0xFF4CAF50),
+          color: const Color(0xFF4CAF50),
           borderRadius: BorderRadius.circular(6),
         ),
         BarChartRodData(
           toY: nonRecycle,
           width: 12,
-          color: Color(0xFFFFC107),
+          color: const Color(0xFFFFC107),
           borderRadius: BorderRadius.circular(6),
         ),
         BarChartRodData(
           toY: b3,
           width: 12,
-          color: Color(0xFFF44336),
+          color: const Color(0xFFF44336),
           borderRadius: BorderRadius.circular(6),
         ),
       ],
@@ -388,9 +399,9 @@ class WasteCategoryItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Color(0xFF2D5F4D),
+            color: const Color(0xFF2D5F4D),
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
                 blurRadius: 8,
@@ -407,7 +418,7 @@ class WasteCategoryItem extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: Color(0xFF2D5F4D),

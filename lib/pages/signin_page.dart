@@ -1,4 +1,5 @@
 import 'package:smartbin/main.dart';
+import 'package:smartbin/pages/phoneNumber_page.dart';
 import 'package:smartbin/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -160,7 +161,11 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 20),
               OutlinedButton.icon(
                 onPressed: () {
-                  // TODO: Login with Phone
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PhoneNumberPage()),
+                  );
                 },
                 icon: Icon(Icons.phone, color: Colors.green),
                 label: const Text(

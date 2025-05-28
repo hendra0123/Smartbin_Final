@@ -272,7 +272,7 @@ class _EditprofilePageState extends State<EditprofilePage> {
                       : (profileProvider.profileImage != null &&
                               profileProvider.profileImage!.path.isNotEmpty
                           ? FileImage(profileProvider.profileImage!)
-                          : const NetworkImage('https://i.pravatar.cc/300')
+                          : const AssetImage('assets/images/profile.jpg')
                               as ImageProvider),
                 ),
                 Positioned(

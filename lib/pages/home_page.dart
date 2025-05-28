@@ -79,13 +79,13 @@ class _HomePageState extends State<HomePage> {
                         Navigator.pushNamed(
                           context,
                           '/profile',
-                          arguments: {'imagePath': 'assets/images/voucher.jpg'},
+                          arguments: {'imagePath': 'assets/images/profile.jpg'},
                         );
                       },
                       child: CircleAvatar(
                         backgroundImage: profileProvider.profileImage != null
                             ? FileImage(profileProvider.profileImage!)
-                            : const AssetImage('assets/images/voucher.jpg')
+                            : const AssetImage('assets/images/profile.jpg')
                                 as ImageProvider,
                         radius: 20,
                       ),

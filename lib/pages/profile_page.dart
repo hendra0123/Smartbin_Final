@@ -77,7 +77,7 @@ class ProfilePage extends StatelessWidget {
                                   profileProvider.profileImage != null
                                       ? FileImage(profileProvider.profileImage!)
                                       : const AssetImage(
-                                              'assets/images/voucher.jpg')
+                                              'assets/images/profile.jpg')
                                           as ImageProvider,
                             ),
                             const SizedBox(width: 20),

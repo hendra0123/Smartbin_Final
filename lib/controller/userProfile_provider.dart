@@ -14,10 +14,6 @@ class UserProfileProvider extends ChangeNotifier {
   String? get email => _email;
   String? get phoneNumber => _phoneNumber;
 
-  UserProfileProvider() {
-    print("✅ UserProfileProvider initialized");
-  }
-
   void updateName(String name) {
     _fullName = name;
     notifyListeners();

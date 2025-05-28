@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smartbin/pages/youtubeCard.dart';
+import 'package:smartbin/widget/youtubeCard.dart';
 import 'package:smartbin/pages/quizDetail_page.dart'; // Import halaman detail quiz
 
 class HomeTab extends StatelessWidget {

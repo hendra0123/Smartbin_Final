@@ -1,10 +1,77 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:smartbin/controller/userProfile_provider.dart';
+
+class EditprofilePage extends StatefulWidget {
+  const EditprofilePage({super.key});
+
+  @override
+  State<EditprofilePage> createState() => _EditprofilePageState();
+}
+
+class _EditprofilePageState extends State<EditprofilePage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  File? _imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    final profileProvider =
+        Provider.of<UserProfileProvider>(context, listen: false);
+
+    _nameController.text = profileProvider.fullName;
+
+    _usernameController.text = "username";
+    _phoneController.text = "";
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _usernameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  void _saveProfile() {
+    final profileProvider =
+        Provider.of<UserProfileProvider>(context, listen: false);
+
+    if (_nameController.text.isNotEmpty &&
+        _nameController.text != profileProvider.fullName) {
+      profileProvider.updateName(_nameController.text);
+    }
+
+    if (_imageFile != null) {
+      profileProvider.updateProfileImage(_imageFile!);
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Profil berhasil diperbarui!')),
+    );
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = Provider.of<UserProfileProvider>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -52,7 +119,7 @@ class ProfilePage extends StatelessWidget {
           // Body content
           Column(
             children: [
-              const SizedBox(height: 260),
+              const SizedBox(height: 230), // Sesuaikan dengan posisi avatar
               Expanded(
                 child: Container(
                   padding:
@@ -67,30 +134,102 @@ class ProfilePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 40),
-                        _buildInputField(
-                            label: 'Full Name',
-                            icon: Icons.person,
-                            hint: 'Name'),
-                        _buildInputField(
-                            label: 'Username',
-                            icon: Icons.edit,
-                            hint: 'Your Username'),
-                        _buildInputField(
-                            label: 'Email',
-                            icon: Icons.email,
-                            hint: 'Email Address'),
-                        _buildInputField(
-                            label: 'Phone Number',
-                            icon: Icons.phone,
-                            hint: 'Phone Number'),
-                        const SizedBox(height: 10),
+                        const SizedBox(
+                            height: 90), // Space untuk avatar yang overlap
+                        const Text(
+                          'Full Name',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller:
+                              _nameController, // Controller sudah diinisialisasi di initState
+                          decoration: InputDecoration(
+                            // hintText: 'Name', // Dihilangkan karena controller sudah mengisi
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Username',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            // hintText: 'Your Username',
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(
+                                Icons.account_circle), // Icon yang lebih sesuai
+                          ),
+                          // Ingat: Perubahan username belum disimpan tanpa update di UserProfileProvider
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Email',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          // Untuk email, kita tampilkan dari provider jika ada, dan set readOnly
+                          // Anda perlu menambahkan getter 'email' di UserProfileProvider
+                          // contoh: hintText: profileProvider.email ?? 'Email Address',
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText:
+                                'email@example.com', // Ganti dengan profileProvider.email jika ada
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            // hintText: 'Phone Number',
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(Icons.phone),
+                          ),
+                          // Ingat: Perubahan nomor telepon belum disimpan tanpa update di UserProfileProvider
+                        ),
+                        const SizedBox(height: 60),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                            onPressed:
+                                _saveProfile, // Panggil method _saveProfile
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF164C3E),
                               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -108,35 +247,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        const Text(
-                          'Point History',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        ListView(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: const [
-                            PointHistoryItem(
-                              title: 'Daur ulang botol plastik',
-                              date: '2025-05-12',
-                              points: 20,
-                            ),
-                            PointHistoryItem(
-                              title: 'Sampah salah tempat',
-                              date: '2025-05-10',
-                              points: -10,
-                            ),
-                            PointHistoryItem(
-                              title: 'Daur ulang kardus',
-                              date: '2025-05-08',
-                              points: 15,
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 60),
                       ],
                     ),
                   ),
@@ -151,86 +262,49 @@ class ProfilePage extends StatelessWidget {
             left: MediaQuery.of(context).size.width / 2 - 90,
             child: Stack(
               clipBehavior: Clip.none,
+              alignment: Alignment.center,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 90,
-                  backgroundImage: NetworkImage('https://i.pravatar.cc/300'),
+                  backgroundColor: Colors.grey.shade200,
+                  backgroundImage: _imageFile != null
+                      ? FileImage(_imageFile!)
+                      : (profileProvider.profileImage != null &&
+                              profileProvider.profileImage!.path.isNotEmpty
+                          ? FileImage(profileProvider.profileImage!)
+                          : const NetworkImage('https://i.pravatar.cc/300')
+                              as ImageProvider),
                 ),
                 Positioned(
-                  bottom: 120,
-                  right: 0,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
+                  bottom: 5,
+                  right: 5,
+                  child: GestureDetector(
+                    onTap: _pickImage,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 24,
+                        color: Color(0xFF164C3E),
+                      ),
                     ),
-                    padding: const EdgeInsets.all(6),
-                    child: const Icon(Icons.camera_alt, size: 20),
                   ),
                 ),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // Reusable input field builder
-  Widget _buildInputField(
-      {required String label, required IconData icon, required String hint}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          decoration: InputDecoration(
-            hintText: hint,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            prefixIcon: Icon(icon),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
-}
-
-// Riwayat Poin Widget
-class PointHistoryItem extends StatelessWidget {
-  final String title;
-  final String date;
-  final int points;
-
-  const PointHistoryItem({
-    super.key,
-    required this.title,
-    required this.date,
-    required this.points,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-      leading: Icon(
-        points > 0 ? Icons.add_circle : Icons.remove_circle,
-        color: points > 0 ? Colors.green : Colors.red,
-      ),
-      title: Text(title),
-      subtitle: Text(date),
-      trailing: Text(
-        '${points > 0 ? '+' : ''}$points pts',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: points > 0 ? Colors.green : Colors.red,
-        ),
       ),
     );
   }

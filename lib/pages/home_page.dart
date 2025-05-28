@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
+import 'package:smartbin/controller/points_controller.dart';
+import 'package:smartbin/controller/userProfile_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,6 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = Provider.of<UserProfileProvider>(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 70.0, 20.0, 0.0),
@@ -51,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         TextSpan(
-                            text: 'Hitam',
+                            text: profileProvider.fullName,
                             style: GoogleFonts.poppins(
                               color: Color.fromRGBO(105, 153, 77, 1),
                               fontSize: 15,
@@ -72,12 +76,18 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/editProfile');
+                        Navigator.pushNamed(
+                          context,
+                          '/profile',
+                          arguments: {'imagePath': 'assets/images/voucher.jpg'},
+                        );
                       },
                       child: CircleAvatar(
-                        backgroundColor: Colors.green,
+                        backgroundImage: profileProvider.profileImage != null
+                            ? FileImage(profileProvider.profileImage!)
+                            : const AssetImage('assets/images/voucher.jpg')
+                                as ImageProvider,
                         radius: 20,
-                        child: Icon(Icons.person),
                       ),
                     ),
                   ],
@@ -116,13 +126,17 @@ class _HomePageState extends State<HomePage> {
                             'assets/images/coin.svg',
                           ),
                           SizedBox(width: 6),
-                          Text(
-                            '200',
-                            style: TextStyle(
+                          ValueListenableBuilder<int>(
+                            valueListenable: PointsController.points,
+                            builder: (context, value, child) => Text(
+                              '$value',
+                              style: const TextStyle(
                                 color: Color.fromRGBO(255, 219, 89, 1),
                                 fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          )
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 5),

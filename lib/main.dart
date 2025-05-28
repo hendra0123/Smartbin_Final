@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smartbin/pages/editProfile_page.dart';
+import 'package:smartbin/controller/userProfile_provider.dart';
+import 'package:smartbin/pages/profile_page.dart';
 import 'package:smartbin/pages/onBoarding_page.dart';
 import 'package:smartbin/pages/qrscan_page.dart';
 import 'package:smartbin/pages/home_page.dart';
 import 'package:smartbin/pages/exchange_page.dart';
 import 'package:smartbin/pages/maps_page.dart';
 import 'package:smartbin/pages/education_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProfileProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +46,18 @@ class MyApp extends StatelessWidget {
         '/maps': (context) => MapsPage(),
         '/education': (context) => const EducationPage(),
         '/qrscan': (context) => QRScannerPage(),
-        '/editProfile': (context) => ProfilePage(),
+        '/profile': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments;
+          String imagePath = 'assets/images/box.jpg'; // default image
+
+          if (args != null &&
+              args is Map<String, dynamic> &&
+              args['imagePath'] != null) {
+            imagePath = args['imagePath'];
+          }
+
+          return ProfilePage(imagePath: imagePath);
+        },
       },
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'kategori_items.dart';
+import '../widget/kategori_items.dart';
 
 class KategoriDetailPage extends StatelessWidget {
   final String kategori;

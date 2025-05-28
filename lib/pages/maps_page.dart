@@ -23,12 +23,13 @@ class _MapsPageState extends State<MapsPage> {
   LatLng? _nearestSmartbin;
   double? _shortestDistance;
   List<LatLng> _polylinePoints = [];
+  bool _locationDenied = false;
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       _showLocationDialog(
-        title: 'Layanan Lokasi Nonaktif',
+        title: 'Layanan Lokasi Tidak Aktif',
         content:
             'Aktifkan layanan lokasi untuk melihat tempat sampah terdekat.',
       );
@@ -70,16 +71,49 @@ class _MapsPageState extends State<MapsPage> {
 
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(content),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(Icons.location_off, color: Colors.redAccent),
+            const SizedBox(width: 8),
+            Expanded(child: Text(title)),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(content, style: const TextStyle(fontSize: 15)),
+            const SizedBox(height: 12),
+          ],
+        ),
         actions: [
           TextButton(
-            child: Text(openSettings ? 'Buka Pengaturan' : 'Tutup'),
+            onPressed: () {
+              setState(() {
+                _locationDenied = true;
+              });
+              Navigator.of(context).pop();
+            },
+            child: const Text('Tutup'),
+          ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            icon: const Icon(Icons.settings),
+            label: Text(openSettings ? 'Buka Pengaturan' : 'Aktifkan Lokasi'),
             onPressed: () async {
               Navigator.of(context).pop();
               if (openSettings) {
                 await Geolocator.openAppSettings();
+              } else {
+                await Geolocator.openLocationSettings();
               }
             },
           ),
@@ -198,12 +232,78 @@ class _MapsPageState extends State<MapsPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_locationDenied) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Padding(
+            padding: EdgeInsets.only(top: 12.0),
+            child: Text(
+              'Lokasi Tempat Sampah',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          automaticallyImplyLeading: false,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.location_off, size: 80, color: Colors.redAccent),
+              const SizedBox(height: 24),
+              Text(
+                'Akses Lokasi Diperlukan',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Untuk melihat rute dan tempat sampah terdekat, aplikasi memerlukan akses ke lokasi perangkat Anda.',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                icon: Icon(Icons.settings),
+                label: Text('Buka Pengaturan Lokasi'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () async {
+                  await Geolocator.openAppSettings();
+                },
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _locationDenied = false;
+                  });
+                  _initializeMaps();
+                },
+                child: Text('Coba Lagi'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Padding(
           padding: EdgeInsets.only(top: 12.0),
           child: Text(
-            'Bin Location',
+            'Lokasi Tempat Sampah',
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,

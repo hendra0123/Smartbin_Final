@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartbin/pages/quizResult_page.dart';
+import 'package:smartbin/pages/quizController.dart';
 
 class QuizDetailPage extends StatefulWidget {
   final String title;
@@ -14,6 +15,7 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
   int currentQuestionIndex = 0;
   int? selectedOptionIndex;
   int score = 0;
+  late QuizController quizController;
 
   final List<Map<String, dynamic>> questions = [
     {
@@ -119,28 +121,27 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
     },
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    quizController = QuizController(questions: questions);
+  }
+
   void handleOptionTap(int index) {
     setState(() {
-      selectedOptionIndex = index;
+      quizController.selectOption(index);
     });
   }
 
   void nextQuestion() {
-    if (currentQuestionIndex < questions.length - 1) {
-      setState(() {
-        if (selectedOptionIndex ==
-            questions[currentQuestionIndex]['correctIndex']) {
-          score += 10;
-        }
-        currentQuestionIndex++;
-        selectedOptionIndex = null;
-      });
-    } else {
-      if (selectedOptionIndex ==
-          questions[currentQuestionIndex]['correctIndex']) {
-        score += 10;
-      }
+    if (quizController.selectedOptionIndex == null) return;
+
+    final isFinished = quizController.nextQuestion();
+
+    if (isFinished) {
       _showFinishConfirmationDialog();
+    } else {
+      setState(() {});
     }
   }
 
@@ -152,18 +153,17 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
         content: const Text('Apakah Anda yakin sudah menjawab dengan baik?'),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Tutup dialog
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text('Batal'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Tutup dialog
+              Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => QuizResultPage(score: score),
+                  builder: (context) =>
+                      QuizResultPage(score: quizController.score),
                 ),
               );
             },
@@ -176,7 +176,8 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final question = questions[currentQuestionIndex];
+    final question =
+        quizController.questions[quizController.currentQuestionIndex];
 
     return Scaffold(
       appBar: AppBar(
@@ -192,21 +193,22 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
             Row(
               children: [
                 Text(
-                  'Question ${currentQuestionIndex + 1}',
+                  'Question ${quizController.currentQuestionIndex + 1}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
                 Text(
-                  ' /${questions.length}',
+                  ' /${quizController.questions.length}',
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               ],
             ),
             const SizedBox(height: 8),
             LinearProgressIndicator(
-              value: (currentQuestionIndex + 1) / questions.length,
+              value: (quizController.currentQuestionIndex + 1) /
+                  quizController.questions.length,
               backgroundColor: Colors.grey.shade300,
               color: Colors.green,
               minHeight: 6,
@@ -227,7 +229,7 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
             // Options
             ...List.generate(question['options'].length, (index) {
               final option = question['options'][index];
-              final isSelected = selectedOptionIndex == index;
+              final isSelected = quizController.selectedOptionIndex == index;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: GestureDetector(
@@ -289,7 +291,9 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
                   label: const Text('Quit Quiz'),
                 ),
                 ElevatedButton(
-                  onPressed: selectedOptionIndex != null ? nextQuestion : null,
+                  onPressed: quizController.selectedOptionIndex != null
+                      ? nextQuestion
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
@@ -300,7 +304,8 @@ class _QuizDetailPageState extends State<QuizDetailPage> {
                     ),
                   ),
                   child: Text(
-                    currentQuestionIndex == questions.length - 1
+                    quizController.currentQuestionIndex ==
+                            quizController.questions.length - 1
                         ? 'Selesaikan Quiz'
                         : 'Next',
                   ),

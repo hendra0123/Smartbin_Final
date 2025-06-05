@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smartbin/controller/userProfile_provider.dart';
+import 'package:smartbin/viewmodel/userProfile_provider.dart';
 import 'package:smartbin/pages/profile_page.dart';
 import 'package:smartbin/pages/onBoarding_page.dart';
 import 'package:smartbin/pages/qrscan_page.dart';

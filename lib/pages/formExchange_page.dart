@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:smartbin/pages/waitingConfirmation_page.dart';
+import 'package:smartbin/utils/exchange_validator.dart'; // ✅ Tambahkan import
 
 class FormExchangePage extends StatefulWidget {
-  const FormExchangePage({super.key});
+  final int currentPoints;
+  final int requiredPoints;
+
+  const FormExchangePage({
+    super.key,
+    this.currentPoints = 120,
+    this.requiredPoints = 100,
+  });
 
   @override
   _FormExchangePageState createState() => _FormExchangePageState();
@@ -10,15 +18,24 @@ class FormExchangePage extends StatefulWidget {
 
 class _FormExchangePageState extends State<FormExchangePage> {
   final _formKey = GlobalKey<FormState>();
-  String nim = '', email = '', jumlah = '';
-  int currentPoints = 120;
-  int requiredPoints = 100;
+  final TextEditingController _nimController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _jumlahController = TextEditingController();
 
   void submitForm() {
     if (_formKey.currentState!.validate()) {
-      if (currentPoints < requiredPoints) {
+      int enteredPoints = int.tryParse(_jumlahController.text) ?? 0;
+
+      // ✅ Gunakan fungsi eksternal yang dapat di-unit test
+      final result = validateExchange(
+        currentPoints: widget.currentPoints,
+        requiredPoints: widget.requiredPoints,
+        enteredPoints: enteredPoints,
+      );
+
+      if (result != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Poin kamu tidak mencukupi")),
+          SnackBar(content: Text(result)),
         );
         return;
       }
@@ -35,11 +52,11 @@ class _FormExchangePageState extends State<FormExchangePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Penukaran Kredit Poin (KP)",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 18, // Ukuran lebih kecil
+            fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
           textAlign: TextAlign.center,
@@ -63,7 +80,7 @@ class _FormExchangePageState extends State<FormExchangePage> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 6,
@@ -87,9 +104,9 @@ class _FormExchangePageState extends State<FormExchangePage> {
                 ),
               ),
               const SizedBox(height: 8),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     "10 poin",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -104,9 +121,9 @@ class _FormExchangePageState extends State<FormExchangePage> {
                 color: Colors.grey,
               ),
               const SizedBox(height: 6),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     "100 Poin Recycle",
                     style: TextStyle(
@@ -121,23 +138,27 @@ class _FormExchangePageState extends State<FormExchangePage> {
 
               // Form Input
               buildInputField(
-                label: "Masukan NIM",
+                label: "Masukkan NIM",
                 hint: "NIM",
-                onChanged: (val) => nim = val,
+                controller: _nimController,
+                key: const Key('nimField'),
               ),
               const SizedBox(height: 12),
               buildInputField(
-                label: "Masukan Email",
-                hint: "email",
-                onChanged: (val) => email = val,
+                label: "Masukkan Email",
+                hint: "Email",
+                controller: _emailController,
+                key: const Key('emailField'),
               ),
               const SizedBox(height: 12),
               buildInputField(
                 label: "Jumlah Yang Ditukarkan",
-                hint: "XXXXXX",
-                onChanged: (val) => jumlah = val,
+                hint: "Misal: 100",
+                controller: _jumlahController,
+                keyboardType: TextInputType.number,
+                key: const Key('jumlahField'),
               ),
-              const SizedBox(height: 55), // Tambahkan jarak ekstra
+              const SizedBox(height: 55),
 
               // Tombol Kirim
               SizedBox(
@@ -156,7 +177,7 @@ class _FormExchangePageState extends State<FormExchangePage> {
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -167,7 +188,9 @@ class _FormExchangePageState extends State<FormExchangePage> {
   Widget buildInputField({
     required String label,
     required String hint,
-    required Function(String) onChanged,
+    required TextEditingController controller,
+    TextInputType keyboardType = TextInputType.text,
+    required Key key,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,8 +204,10 @@ class _FormExchangePageState extends State<FormExchangePage> {
         ),
         const SizedBox(height: 6),
         TextFormField(
+          key: key,
           validator: (value) => value!.isEmpty ? "Harus diisi" : null,
-          onChanged: onChanged,
+          controller: controller,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
             filled: true,

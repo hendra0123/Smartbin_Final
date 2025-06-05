@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartbin/controller/points_controller.dart';
+import 'package:smartbin/viewmodel/points_controller.dart';
 import 'package:smartbin/pages/formExchange_page.dart';
 
 class ExchangePage extends StatelessWidget {

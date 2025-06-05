@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
-import 'package:smartbin/controller/points_controller.dart';
-import 'package:smartbin/controller/userProfile_provider.dart';
+import 'package:smartbin/viewmodel/points_controller.dart';
+import 'package:smartbin/viewmodel/userProfile_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:smartbin/controller/userProfile_provider.dart';
+import 'package:smartbin/viewmodel/userProfile_provider.dart';
 
 class EditprofilePage extends StatefulWidget {
   const EditprofilePage({super.key});

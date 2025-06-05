@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  final String? profileImageUrl;
+
+  const ProfilePage({super.key, this.profileImageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,8 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 260),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
@@ -79,7 +82,8 @@ class ProfilePage extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'Name',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
                             ),
                             prefixIcon: Icon(Icons.person),
                           ),
@@ -97,7 +101,8 @@ class ProfilePage extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'Your Username',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
                             ),
                             prefixIcon: Icon(Icons.edit),
                           ),
@@ -115,7 +120,8 @@ class ProfilePage extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'Email Address',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
                             ),
                             prefixIcon: Icon(Icons.email),
                           ),
@@ -133,7 +139,8 @@ class ProfilePage extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'Phone Number',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
                             ),
                             prefixIcon: Icon(Icons.phone),
                           ),
@@ -147,7 +154,8 @@ class ProfilePage extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF164C3E),
-                              padding: const EdgeInsets.symmetric(vertical: 30),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 30),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
@@ -178,9 +186,13 @@ class ProfilePage extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 90,
-                  backgroundImage: NetworkImage('https://i.pravatar.cc/300'),
+                  backgroundImage: profileImageUrl != null &&
+                          profileImageUrl!.isNotEmpty
+                      ? NetworkImage(profileImageUrl!)
+                      : const AssetImage('assets/images/avatar_placeholder.jpg')
+                          as ImageProvider,
                 ),
                 Positioned(
                   bottom: 120,

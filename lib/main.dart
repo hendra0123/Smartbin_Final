@@ -7,6 +7,7 @@ import 'package:smartbin/pages/exchange_page.dart';
 import 'package:smartbin/pages/maps_page.dart';
 import 'package:smartbin/pages/education_page.dart';
 import 'package:smartbin/pages/profilehome_page.dart';
+import 'package:smartbin/pages/signin_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme.apply(bodyColor: Colors.black),
         ),
       ),
-      home: MainPage(),
+      home: SigninPage(),
     );
   }
 }

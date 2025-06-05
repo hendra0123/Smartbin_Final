@@ -66,5 +66,3 @@ void main() {
     expect(find.text('Sign in here'), findsOneWidget);
   });
 }
-
-

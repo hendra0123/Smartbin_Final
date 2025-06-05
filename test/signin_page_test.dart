@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smartbin/pages/signin_page.dart';
+import 'package:smartbin/pages/signup_page.dart'; // Import the actual SignupPage
 
 void main() {
   testWidgets('SigninPage UI Test', (WidgetTester tester) async {
@@ -42,28 +43,24 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: const SigninPage(),
-        // Menyediakan dummy route untuk navigasi
-        onGenerateRoute: (settings) {
-          if (settings.name == '/signup') {
-            return MaterialPageRoute(
-              builder: (_) => const Scaffold(
-                body: Center(child: Text('SignupPage')),
-              ),
-            );
-          }
-          return null;
+        routes: {
+          '/signup': (context) => const SignupPage(), // Use actual SignupPage
         },
       ),
     );
 
     final signupButton = find.byKey(const Key('signupNavButton'));
 
-    // Pastikan tombol terlihat dan bisa disentuh
+    // Ensure button is visible and tap it
     await tester.ensureVisible(signupButton);
     await tester.tap(signupButton);
     await tester.pumpAndSettle();
 
-    // Verifikasi bahwa telah berpindah ke halaman SignupPage dummy
-    expect(find.text('SignupPage'), findsOneWidget);
+    // Verify navigation by checking either:
+    // 1. The actual SignupPage widget type
+    expect(find.byType(SignupPage), findsOneWidget);
+    
+    // OR 2. The actual title of SignupPage ('Create Account')
+    expect(find.text('Create Account'), findsOneWidget);
   });
 }

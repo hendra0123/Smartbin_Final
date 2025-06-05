@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme.apply(bodyColor: Colors.black),
         ),
       ),
-      home: SigninPage(),
+      home: ProfileHomePage(),
     );
   }
 }

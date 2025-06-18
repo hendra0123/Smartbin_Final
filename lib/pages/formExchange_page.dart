@@ -5,13 +5,11 @@ import 'package:smartbin/utils/exchange_validator.dart'; // ✅ Tambahkan import
 class FormExchangePage extends StatefulWidget {
   final int currentPoints;
   final int requiredPoints;
-  final int nada;
 
   const FormExchangePage({
     super.key,
     this.currentPoints = 120,
     this.requiredPoints = 100,
-    this.nada = 0,
   });
 
   @override

@@ -22,7 +22,7 @@ class _EditprofilePageState extends State<EditprofilePage> {
   @override//coba
   void initState() {//coba
     super.initState();//coba
-    final profileProvider =
+    final profileProvider =//coba
         Provider.of<UserProfileProvider>(context, listen: false);
 
     _nameController.text = profileProvider.fullName;

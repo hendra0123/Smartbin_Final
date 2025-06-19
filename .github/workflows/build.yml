@@ -1,0 +1,40 @@
+name: Build Flutter App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        platform: [macos, windows, android]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'  # Ganti sesuai versi kamu
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Enable desktop
+        run: flutter config --enable-windows-desktop --enable-macos-desktop
+
+      - name: Build for ${{ matrix.platform }}
+        run: |
+          if [[ "${{ matrix.platform }}" == "windows" ]]; then
+            flutter build windows
+          elif [[ "${{ matrix.platform }}" == "macos" ]]; then
+            flutter build macos
+          elif [[ "${{ matrix.platform }}" == "android" ]]; then
+            flutter build apk
+          fi

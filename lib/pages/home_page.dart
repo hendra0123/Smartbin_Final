@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                     child: Icon(Icons.person),
                   ),
                 ),
-              ],
+              ],//coba
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             // Card with Points and Total Waste

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smartbin/viewmodel/points_controller.dart';
 
 class QuizResultPage extends StatelessWidget {
   final int score;
@@ -10,6 +11,7 @@ class QuizResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int maxScore = 100; // ubah sesuai jumlah soal
     int coins = score * 25; // misalnya 1 poin = 25 koin
+    PointsController.addPoints(coins); // tambahkan koin ke total poin
 
     return Scaffold(
       // backgroundColor: const Color(0xFF0C0C2E),

@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:smartbin/services/auth_service.dart';
 import 'package:smartbin/viewmodel/points_controller.dart';
 import 'package:smartbin/viewmodel/userProfile_provider.dart';
+import 'package:smartbin/viewmodel/SampahController.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? _username;
+  final _authService = AuthService();
+
   String getGreeting() {
     final hour = DateTime.now().hour;
 
@@ -160,13 +165,17 @@ class _HomePageState extends State<HomePage> {
                             'assets/images/recycle-bottle.svg',
                           ),
                           SizedBox(width: 6),
-                          Text(
-                            '400000',
-                            style: TextStyle(
+                          ValueListenableBuilder<int>(
+                            valueListenable: SampahController.totalSampah,
+                            builder: (context, value, child) => Text(
+                              '$value',
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                          )
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     ],
@@ -219,8 +228,6 @@ class _HomePageState extends State<HomePage> {
                           _buildLegendItem(Color(0xFF4CAF50), 'Recycle'),
                           SizedBox(width: 16),
                           _buildLegendItem(Color(0xFFFFC107), 'Non-recycle'),
-                          SizedBox(width: 16),
-                          _buildLegendItem(Color(0xFFF44336), 'B3'),
                         ],
                       ),
                       SizedBox(height: 24),
@@ -317,10 +324,6 @@ class _HomePageState extends State<HomePage> {
                       icon: Icons.set_meal, // contoh icon untuk Non-Recycle
                       label: 'Non-Recycle',
                     ),
-                    WasteCategoryItem(
-                      icon: Icons.battery_full,
-                      label: 'Limbah B3',
-                    ),
                   ],
                 ),
               ],
@@ -354,15 +357,26 @@ class _HomePageState extends State<HomePage> {
 
   List<BarChartGroupData> _createBarGroups() {
     return [
-      _makeGroup(0, 3, 5, 7),
-      _makeGroup(1, 8, 2, 5),
-      _makeGroup(2, 7, 9, 6),
-      _makeGroup(3, 4, 2, 7),
+      _makeGroup(0, 3, 5),
+      _makeGroup(1, 8, 2),
+      _makeGroup(2, 7, 9),
+      _makeGroup(3, 4, 2),
     ];
   }
 
-  BarChartGroupData _makeGroup(
-      int x, double recycle, double nonRecycle, double b3) {
+  void _loadUsername() async {
+    final username = await _authService.getCurrentUsername();
+    setState(() {
+      _username = username;
+    });
+  }
+
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  BarChartGroupData _makeGroup(int x, double recycle, double nonRecycle) {
     return BarChartGroupData(
       x: x,
       barRods: [
@@ -376,12 +390,6 @@ class _HomePageState extends State<HomePage> {
           toY: nonRecycle,
           width: 12,
           color: Color(0xFFFFC107),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        BarChartRodData(
-          toY: b3,
-          width: 12,
-          color: Color(0xFFF44336),
           borderRadius: BorderRadius.circular(6),
         ),
       ],

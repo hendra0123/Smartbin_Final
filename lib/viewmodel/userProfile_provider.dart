@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class UserProfileProvider extends ChangeNotifier {
-  String _fullName = "User";
+  String _fullName = "Hendra";
   File? _profileImage;
   String? _username;
   String? _email;

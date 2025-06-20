@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:smartbin/viewmodel/SampahController.dart';
+import 'package:smartbin/viewmodel/points_controller.dart';
 
 class QRScannerPage extends StatefulWidget {
   @override
@@ -32,6 +34,14 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 setState(() {
                   isScanned = true;
                 });
+
+                PointsController.addPoints(50); // Add 50 coins
+                SampahController.addSampah(1); // Add 1 to total sampah
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text('Scanned: $code — +50 coins, +1 sampah')),
+                );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Scanned: $code')),
                 );

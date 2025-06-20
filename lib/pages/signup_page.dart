@@ -1,11 +1,46 @@
 import 'package:smartbin/pages/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smartbin/services/auth_service.dart';
+// import 'package:smartbin/services/api_service.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
   @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+class _SignupPageState extends State<SignupPage> {
+  // const SignupPage({super.key});
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String responseMessage = "";
+
+  void _registerUser() async {
+    final authService = AuthService();
+    final response = await authService.register(
+      _usernameController.text,
+      _emailController.text,
+      _passwordController.text,
+    );
+    setState(() {
+      responseMessage = response;
+    });
+
+    // Optional: show snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(response)),
+    );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -69,6 +104,7 @@ class SignupPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               TextField(
+                controller: _usernameController,
                 decoration: InputDecoration(
                   hintText: 'username',
                   border: OutlineInputBorder(
@@ -77,6 +113,7 @@ class SignupPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'email',
                   border: OutlineInputBorder(
@@ -85,6 +122,7 @@ class SignupPage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'password',
@@ -96,7 +134,12 @@ class SignupPage extends StatelessWidget {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: SignupPage action
+                  _registerUser(); // Call the register function
+                  // Optionally, navigate to another page or show a success message 
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -124,7 +167,6 @@ class SignupPage extends StatelessWidget {
               const SizedBox(height: 20),
               OutlinedButton.icon(
                 onPressed: () {
-                  // TODO: SignupPage with Phone
                 },
                 icon: Icon(Icons.phone, color: Colors.green),
                 label: const Text(
